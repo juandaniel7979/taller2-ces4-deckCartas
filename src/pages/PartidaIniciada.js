@@ -2,20 +2,22 @@ import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
-import { Button, CardMedia, Fab, Typography } from '@mui/material';
+import {  CardMedia, Fab, Typography } from '@mui/material';
 import usePartida from '../hooks/usePartida';
 import { useNavigate } from 'react-router-dom';
 
 const PartidaIniciada = () => {
     const navigator = useNavigate();
     const {player1,player2,pedirCartas}=usePartida();
-    if(player1.nombre==="" || player2.nombre===""){
-        return navigator('/');
-    }
 
-
-    const pedido=async()=>{
-        await pedirCartas();
+    React.useEffect(() => {
+        if(player1.nombre==="" || player2.nombre===""){
+            navigator('/');
+        }
+    })
+    
+    const pedido=()=>{
+        pedirCartas();
     }
 
   return (
@@ -108,7 +110,8 @@ const PartidaIniciada = () => {
                 <br />
                 <br />
             <Grid item container rowSpacing={{xs:3}}   justifyContent="center"  >
-            {player1.cartas.slice(1).map((cartas) => (
+            {/* {player1.cartas.slice(1).map((cartas) => ( */}
+            {player1.cartas.map((cartas) => (
                 <Grid item xs={3}>
                 <CardMedia component="img"
                 sx={{ width: 151 }}
@@ -123,8 +126,9 @@ const PartidaIniciada = () => {
                 <br />
                 <br />
             <Grid  container rowSpacing={{xs:3}}   >
-            {player2.cartas.slice(1).map((cartas) => (
-                <Grid item  xs={3} >
+            {/* {player2.cartas.slice(1).map((cartas) => ( */}
+            {player2.cartas.map((cartas) => (
+                <Grid item key={cartas.image} xs={3} >
                 <CardMedia component="img"
                 sx={{ width: 151 }}
                 image={cartas.image}

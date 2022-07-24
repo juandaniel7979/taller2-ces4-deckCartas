@@ -6,12 +6,12 @@ import Box from '@mui/material/Box';
 // import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import { useNavigate } from 'react-router-dom';
-import React, { useEffect } from 'react'
+// import { useNavigate } from 'react-router-dom';
+import React from 'react'
 import usePartida from '../hooks/usePartida';
 
 const RegistrarJugadores = () => {
-    const navigator = useNavigate();
+    // const navigator = useNavigate();
     const {nuevaPartida, handleChangePlayer1,handleChangePlayer2,player1,player2} = usePartida();
     const theme = createTheme();
 
@@ -23,7 +23,7 @@ const RegistrarJugadores = () => {
 
      const Iniciar = async ()=>{
         await nuevaPartida();
-        navigator("/partida");
+        
     }
 
     // useEffect(() => {
