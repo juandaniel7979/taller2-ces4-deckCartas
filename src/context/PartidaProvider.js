@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 import { PartidaContext } from "./PartidaContext";
 
@@ -7,29 +7,57 @@ import { PartidaContext } from "./PartidaContext";
 const PartidaProvider = ({ children }) => {
     const [deckId, setDeckId] = useState('');
   // const [player1, setPlayer1] = useState({"nombre":'',cartas:[]});
-  const [player1, setPlayer1] = useState([]);
-  const [player2, setPlayer2] = useState([]);
+  const [player1, setPlayer1] = useState({nombre:"",cartas:[]});
+  // const [player2, setPlayer2] = useState([]);
+  const [player2, setPlayer2] = useState({nombre:"",cartas:[]});
   
+  const handleChangePlayer1 = (e) => {
+    let updatedValue = {};
+    updatedValue = {nombre:e.target.value};
+    setPlayer1(player1 => ({
+        ...player1,
+        ...updatedValue
+      }));
+    }
 
-  const handleChangePlayer1 = (e) =>{
-    setPlayer1({"nombre": e.target.value,"cartas":[...player1.cartas]});
-  }
-  const handleChangePlayer2 = (e) =>{
-    setPlayer2({"nombre": e.target.value,"cartas":[...player2.cartas]});
-  }
-
+    const handleChangeCartasP1 = (e) => {
+      let updatedValue = {};
+      updatedValue = {cartas:[...player2.cartas,e]};
+      setPlayer1(player1 => ({
+          ...player1,
+          ...updatedValue
+        }));
+      }
+      
+      const handleChangePlayer2 = (e) => {
+        let updatedValue = {};
+        updatedValue = {nombre:e.target.value};
+        setPlayer2(player2 => ({
+          ...player2,
+          ...updatedValue
+        }));
+      }
+      
+      const handleChangeCartasP2 = (e) => {
+        let updatedValue = {};
+        updatedValue = {cartas:[...player2.cartas,e]};
+        setPlayer2(player2 => ({
+            ...player2,
+            ...updatedValue
+          }));
+        }
 
 async function getId() {
     const url = "https://deckofcardsapi.com/api/deck/new/shuffle";
-    const { data } = await axios.get(url);
-    console.log(data);
+    const { data } = await axios(url);
+    // console.log(data);
     return data?.deck_id;
 }
 
 async function getCartas(id) {
     const url = `https://deckofcardsapi.com/api/deck/${id}/draw/?count=2`;
-    const { data } = await axios.get(url);
-    console.log(data)
+    const { data } = await axios(url);
+    // console.log(data)
     return data?.cards;
 }
 
@@ -44,18 +72,34 @@ async function getCartas(id) {
       console.log('Ambos jugadores deben tener nombre');
       return alert('Ambos jugadores deben tener nombre');
     }
-    console.log("antes");
-    console.log(player2);
-    const player={...player2,"cartas":[cartas[0]]};
-    console.log('despues');
-    setPlayer2(player);
-
-    // setPlayer2([...player2[0].cartas ,cartas[0]]);
-    // setPlayer2(player2.cartas=cartas[1]);
-
-    console.log(player1);
-    console.log(player2);
+    handleChangeCartasP1(cartas[0]);
+    handleChangeCartasP2(cartas[1])
   }
+
+  const pedirCartas = async () =>{
+    const deckid = await getId();
+    const cartas = await getCartas(deckid);
+    handleChangeCartasP1(cartas[0]);
+    handleChangeCartasP2(cartas[1])
+    // buscarPareja(player1);
+    // buscarPareja(player2);
+  }
+
+
+
+  const buscarPareja = (cartasJugador) => {
+    let repetidos=[];
+    cartasJugador.find(function(ele , pos){
+        if(cartasJugador.indexOf(ele).value != pos){
+            repetidos.push(cartasJugador[pos])
+        }
+        console.log(repetidos)
+        if(repetidos.length>1){
+          alert("Hay un ganador")
+        }
+    }) 
+    }
+    
 
   // useEffect(() => {
   //   const consultarAPI = async () => {
@@ -75,7 +119,8 @@ async function getCartas(id) {
         player1,
         player2,
         deckId,
-        nuevaPartida
+        nuevaPartida,
+        pedirCartas
         }}
     >
       {children}

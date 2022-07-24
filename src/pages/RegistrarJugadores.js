@@ -23,7 +23,7 @@ const RegistrarJugadores = () => {
 
      const Iniciar = async ()=>{
         await nuevaPartida();
-        console.log('corrio')
+        navigator("/partida");
     }
 
     // useEffect(() => {
@@ -58,7 +58,7 @@ const RegistrarJugadores = () => {
                 name="player1"
                 autoFocus
                 value={player1.nombre}
-                onChange={handleChangePlayer1}
+                onChange={(e) => handleChangePlayer1(e)}
 
                 />
                 <TextField
@@ -69,7 +69,7 @@ const RegistrarJugadores = () => {
                 label="Player 2"
                 id="player2"
                 value={player2.nombre}
-                onChange={handleChangePlayer2}
+                onChange={(e) => handleChangePlayer2(e)}
                 />
                 <Button
                 fullWidth
