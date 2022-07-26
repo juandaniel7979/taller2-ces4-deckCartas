@@ -9,6 +9,7 @@ const PartidaProvider = ({ children }) => {
     const [deckId, setDeckId] = useState('');
   const [player1, setPlayer1] = useState({nombre:"",cartas:[]});
   const [player2, setPlayer2] = useState({nombre:"",cartas:[]});
+  const [repetidos, setRepetidos] = useState([])
   
   const navigator = useNavigate();
 
@@ -47,15 +48,21 @@ const PartidaProvider = ({ children }) => {
             ...updatedValue
           }));
         }
+      
+      
+        const handleChangeRepetidos= (e) => {
+        setRepetidos(e);
+        }
 
-async function getId() {
+
+const getDeckId =async() => {
     const url = "https://deckofcardsapi.com/api/deck/new/shuffle";
     const { data } = await axios(url);
     // console.log(data);
     return data?.deck_id;
 }
 
-async function getCartas(id) {
+const  getCartas= async(id)=> {
     const url = `https://deckofcardsapi.com/api/deck/${id}/draw/?count=2`;
     const { data } = await axios(url);
     // console.log(data)
@@ -64,7 +71,7 @@ async function getCartas(id) {
 
   
   const nuevaPartida = async () =>{
-    const deckid = await getId();
+    const deckid = await getDeckId();
     setDeckId(deckid);
     const cartas = await getCartas(deckid);
     // console.log(cartas);
@@ -79,7 +86,7 @@ async function getCartas(id) {
   }
 
   const pedirCartas = async () =>{
-    const deckid = await getId();
+    const deckid = await getDeckId();
     const cartas = await getCartas(deckid);
     handleChangeCartasP1(cartas[0]);
     handleChangeCartasP2(cartas[1])
@@ -89,6 +96,10 @@ async function getCartas(id) {
     let parPlayer1 =buscarPareja(temp);
     // let parPlayer2 =buscarPareja(player2.cartas);
     let parPlayer2 =buscarPareja(temp2);
+    console.log('repetidos');
+    console.log(repetidos);
+    console.log(' fin');
+
 
     if(parPlayer1!==false && parPlayer2!==false){
       if(parPlayer1>parPlayer2){
@@ -108,38 +119,54 @@ async function getCartas(id) {
 
 
   const buscarPareja = (cartasJugador) => {
-    const busqueda = cartasJugador.reduce((acc, carta) => {
+    const busquedaValor = cartasJugador.reduce((acc, carta) => {
       acc[carta.value] = ++acc[carta.value] || 0;
       return acc;
     }, {});
     
     const duplicados = cartasJugador.filter( (carta) => {
-        return busqueda[carta.value];
+        return busquedaValor[carta.value];
     });
-        console.log(duplicados);
+    
+    const busquedaSuit = cartasJugador.reduce((acc, carta) => {
+      acc[carta.suit] = ++acc[carta.suit] || 0;
+      return acc;
+    }, {});
+    
+    const duplicadosSuit = cartasJugador.filter( (carta) => {
+        return busquedaSuit[carta.suit];
+    });
+        console.log('duplicados value: '+duplicados);
+        console.log('duplicados suit: '+duplicadosSuit);
     if(duplicados.length>=2){
+      console.log(duplicados);
+      handleChangeRepetidos(duplicados)
       const carta1 =valorSuit(duplicados[0].suit);
-        const carta2 =valorSuit(duplicados[1].suit);
+      const carta2 =valorSuit(duplicados[1].suit);
           return carta1+carta2;
-    }else{
+    }else if( duplicadosSuit.length>=2){
+      console.log(duplicadosSuit);
+      handleChangeRepetidos(duplicadosSuit)
+      const carta1 =valorSuit(duplicadosSuit[0].suit);
+      const carta2 =valorSuit(duplicadosSuit[1].suit);
+          return carta1+carta2;
+    }
+    else{
       return false;
     }
     }
     
 
-    function valorSuit(suit){
-      switch (suit) {
-        case "HEARTS":
+    const valorSuit=(suit)=>{
+        if (suit==="HEARTS"){
             return 4;
-        case "SPADES":
+        }else if (suit==="SPADES"){
             return 3;
-        case "DIAMONDS":
+        }else if (suit==="DIAMONDS"){
             return 2;
-        case "CLUBS":
-            return 1;
-        default:
-            return 0;
-    }
+        }else if (suit==="CLUBS"){
+          return 1;
+        }
     }
 
   // useEffect(() => {
@@ -161,7 +188,8 @@ async function getCartas(id) {
         player2,
         deckId,
         nuevaPartida,
-        pedirCartas
+        pedirCartas,
+        repetidos
         }}
     >
       {children}

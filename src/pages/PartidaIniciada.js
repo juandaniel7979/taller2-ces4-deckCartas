@@ -2,13 +2,14 @@ import * as React from 'react';
 import Grid from '@mui/material/Grid';
 import AddIcon from '@mui/icons-material/Add';
 import Box from '@mui/material/Box';
-import {  CardMedia, Fab, Typography } from '@mui/material';
+import { Fab, Typography } from '@mui/material';
 import usePartida from '../hooks/usePartida';
 import { useNavigate } from 'react-router-dom';
+import Carta from '../components/Carta';
 
 const PartidaIniciada = () => {
     const navigator = useNavigate();
-    const {player1,player2,pedirCartas}=usePartida();
+    const {player1,player2,pedirCartas,repetidos}=usePartida();
 
     React.useEffect(() => {
         if(player1.nombre==="" || player2.nombre===""){
@@ -59,6 +60,11 @@ const PartidaIniciada = () => {
                 <br />
                 <br />
             <Grid item container rowSpacing={{xs:3}}   justifyContent="center"  >
+            {repetidos.length>0 ? repetidos.map((rep) => (
+                <Carta imagen={rep.image}/>
+                ))
+                :
+                <>
                 <Grid item  backgroundColor="white" borderRadius={1}  
                 sx={{
                     height: 140,
@@ -77,6 +83,8 @@ const PartidaIniciada = () => {
                     borderRadius:1
                     }}>
                 </Grid>
+                </>
+            }
             </Grid>
             </Box>
             {/* Player2 */}
@@ -112,12 +120,7 @@ const PartidaIniciada = () => {
             <Grid item container rowSpacing={{xs:3}}   justifyContent="center"  >
             {/* {player1.cartas.slice(1).map((cartas) => ( */}
             {player1.cartas.map((cartas) => (
-                <Grid item xs={3}>
-                <CardMedia component="img"
-                sx={{ width: 151 }}
-                image={cartas.image}
-                 key={cartas.image} />
-                </Grid>
+                <Carta imagen={cartas.image}/>
                 ))
             }
             </Grid>
@@ -128,12 +131,7 @@ const PartidaIniciada = () => {
             <Grid  container rowSpacing={{xs:3}}   >
             {/* {player2.cartas.slice(1).map((cartas) => ( */}
             {player2.cartas.map((cartas) => (
-                <Grid item key={cartas.image} xs={3} >
-                <CardMedia component="img"
-                sx={{ width: 151 }}
-                image={cartas.image}
-                key={cartas.image} />
-                </Grid>
+                <Carta imagen={cartas.image}/>
                 ))
             }
             </Grid>
