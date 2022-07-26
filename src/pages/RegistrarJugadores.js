@@ -32,8 +32,8 @@ const RegistrarJugadores = () => {
     // }, [player1,player2])
 
   return (
-        <ThemeProvider theme={theme}>
-        <Container component="main" maxWidth="xs">
+        <ThemeProvider theme={theme} >
+        <Container component="main" maxWidth="xs" sx={{backgroundColor:'white'}}>
             <CssBaseline />
             <Box
             sx={{

@@ -79,8 +79,8 @@ const PartidaIniciada = () => {
                 <>
                 <Grid item  backgroundColor="white" borderRadius={1}  
                 sx={{
-                    height: 140,
-                    width: 100,
+                    height: 180,
+                    width: 140,
                     border:2,
                     borderColor:'white',
                     borderRadius:1
@@ -88,8 +88,8 @@ const PartidaIniciada = () => {
                 </Grid>
                 <Grid item  backgroundColor="white"   marginLeft={4}  
                 sx={{
-                    height: 140,
-                    width: 100,
+                    height: 180,
+                    width: 140,
                     border:2,
                     borderColor:'white',
                     borderRadius:1
@@ -111,8 +111,8 @@ const PartidaIniciada = () => {
                 <>
                 <Grid item  backgroundColor="white" borderRadius={1}  
                 sx={{
-                    height: 140,
-                    width: 100,
+                    height: 180,
+                    width: 140,
                     border:2,
                     borderColor:'white',
                     borderRadius:1
@@ -120,8 +120,8 @@ const PartidaIniciada = () => {
                 </Grid>
                 <Grid item  backgroundColor="white"   marginLeft={4}  
                 sx={{
-                    height: 140,
-                    width: 100,
+                    height: 180,
+                    width: 140,
                     border:2,
                     borderColor:'white',
                     borderRadius:1
@@ -133,7 +133,7 @@ const PartidaIniciada = () => {
             </Box>
 
             {/* Cartas jugador 1 */}
-            <Box backgroundColor="#12420b"  sx={{ width: '50%' }}>
+            <Box backgroundColor="#12420b"  sx={{ width: '50%', height: '100%' }}>
                 <br />
                 <br />
             <Grid item container rowSpacing={{xs:3}}   justifyContent="center"  >
@@ -147,7 +147,7 @@ const PartidaIniciada = () => {
             <Box backgroundColor="#12420b"  sx={{ width: '50%' }}>
                 <br />
                 <br />
-            <Grid  container rowSpacing={{xs:3}}   >
+            <Grid  container rowSpacing={{xs:3}}    >
             {/* {player2.cartas.slice(1).map((cartas) => ( */}
             {player2.cartas.map((cartas) => (
                 <Carta imagen={cartas.image}/>

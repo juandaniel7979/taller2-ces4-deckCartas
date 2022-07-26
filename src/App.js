@@ -2,6 +2,7 @@ import {BrowserRouter,Route,Routes} from 'react-router-dom';
 import PartidaIniciada from './pages/PartidaIniciada';
 import RegistrarJugadores from './pages/RegistrarJugadores';
 import PartidaProvider from './context/PartidaProvider'
+import './App.css'
 
 
 function App() {
