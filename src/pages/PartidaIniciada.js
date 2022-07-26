@@ -6,9 +6,11 @@ import { Fab, Typography } from '@mui/material';
 import usePartida from '../hooks/usePartida';
 import { useNavigate } from 'react-router-dom';
 import Carta from '../components/Carta';
+import RestartAltIcon from '@mui/icons-material/RestartAlt';
 
 const PartidaIniciada = () => {
     const navigator = useNavigate();
+
     const {player1,player2,pedirCartas,repetidos}=usePartida();
 
     React.useEffect(() => {
@@ -33,10 +35,16 @@ const PartidaIniciada = () => {
             </Grid>
             {/* boton pedir mas */}
             <Grid  sx={{width:'3%',height:'100%'}}>
+                {repetidos.length>0 ? 
+                <Fab color="primary" onClick={pedido} aria-label="add"
+                sx={{top:50}}>
+                    <RestartAltIcon />
+                </Fab>:
                 <Fab color="primary" onClick={pedido} aria-label="add"
                 sx={{top:50}}>
                     <AddIcon />
-                </Fab>
+                </Fab>}
+                
             </Grid>
             {/* Player2 name */}
             <Grid item xs={6}

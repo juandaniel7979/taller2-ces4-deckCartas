@@ -2,6 +2,7 @@ import { useState } from "react";
 import axios from "axios";
 import { PartidaContext } from "./PartidaContext";
 import { useNavigate } from "react-router-dom";
+import swal from 'sweetalert';
 
 // const PartidaContext = createContext();
 
@@ -76,12 +77,14 @@ const  getCartas= async(id)=> {
     const cartas = await getCartas(deckid);
     // console.log(cartas);
     // console.log(cartas[0]);
-    if(player1.nombre!=="" || player2.nombre!==""){
+    if(player1.nombre!=="" && player2.nombre!==""){
       handleChangeCartasP1(cartas[0]);
     handleChangeCartasP2(cartas[1]);
       navigator("/partida");
     }else{
-      return alert('Ambos jugadores deben tener nombre');
+      return swal('Atencion','Ambos jugadores deben tener nombre',"warning", {
+        buttons: ["Oh noez!", "Aww yiss!"],
+      });
     }
   }
 
