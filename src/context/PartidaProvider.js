@@ -10,7 +10,7 @@ const PartidaProvider = ({ children }) => {
     const [deckId, setDeckId] = useState('');
   const [player1, setPlayer1] = useState({nombre:"",cartas:[]});
   const [player2, setPlayer2] = useState({nombre:"",cartas:[]});
-  const [repetidos, setRepetidos] = useState([])
+  const [repetidos, setRepetidos] = useState({nombre:"",cartas:[]})
   
   const navigator = useNavigate();
 
@@ -51,8 +51,21 @@ const PartidaProvider = ({ children }) => {
         }
       
       
+        const handleChangeRepetidosGanador= (e) => {
+        let updatedValue = {};
+        updatedValue = {nombre:e};
+        setRepetidos(repetidos => ({
+          ...repetidos,
+          ...updatedValue
+        }));
+        }
         const handleChangeRepetidos= (e) => {
-        setRepetidos(e);
+          let updatedValue = {};
+          updatedValue = {cartas:e};
+          setRepetidos(repetidos => ({
+              ...repetidos,
+              ...updatedValue
+            }));
         }
 
 
@@ -70,6 +83,13 @@ const  getCartas= async(id)=> {
     return data?.cards;
 }
 
+
+const reiniciarPartida = ()=>{
+  setDeckId("");
+  setPlayer1({nombre:"",cartas:[]});
+  setPlayer2({nombre:"",cartas:[]});
+  setRepetidos({nombre:"",cartas:[]});
+}
   
   const nuevaPartida = async () =>{
     const deckid = await getDeckId();
@@ -106,14 +126,18 @@ const  getCartas= async(id)=> {
 
     if(parPlayer1!==false && parPlayer2!==false){
       if(parPlayer1>parPlayer2){
+        handleChangeRepetidosGanador(player1.nombre);
         return alert('El ganador es: '+player1.nombre)
       }else{
+        handleChangeRepetidosGanador(player2.nombre);
         return alert('El ganador es: '+player2.nombre)
       }
     }else if(parPlayer1!==false && parPlayer2===false){
-      return alert('El ganador es: '+player1.nombre);
+      handleChangeRepetidosGanador(player1.nombre);
+      return alert('El ganador es: '+player1.nombre)
     }else if(parPlayer2!==false && parPlayer1===false){
-      return alert('El ganador es: '+player2.nombre);
+      handleChangeRepetidosGanador(player2.nombre);
+      return alert('El ganador es: '+player2.nombre)
     }else if(parPlayer1===false || parPlayer2===false){
       console.log("No hay ganador aun");
     }
@@ -192,7 +216,8 @@ const  getCartas= async(id)=> {
         deckId,
         nuevaPartida,
         pedirCartas,
-        repetidos
+        repetidos,
+        reiniciarPartida
         }}
     >
       {children}

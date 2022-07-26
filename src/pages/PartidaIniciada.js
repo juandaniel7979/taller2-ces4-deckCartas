@@ -11,7 +11,7 @@ import RestartAltIcon from '@mui/icons-material/RestartAlt';
 const PartidaIniciada = () => {
     const navigator = useNavigate();
 
-    const {player1,player2,pedirCartas,repetidos}=usePartida();
+    const {player1,player2,pedirCartas,repetidos,reiniciarPartida}=usePartida();
 
     React.useEffect(() => {
         if(player1.nombre==="" || player2.nombre===""){
@@ -21,6 +21,10 @@ const PartidaIniciada = () => {
     
     const pedido=()=>{
         pedirCartas();
+    }
+
+    const reiniciar=()=>{
+        reiniciarPartida();
     }
 
   return (
@@ -35,8 +39,8 @@ const PartidaIniciada = () => {
             </Grid>
             {/* boton pedir mas */}
             <Grid  sx={{width:'3%',height:'100%'}}>
-                {repetidos.length>0 ? 
-                <Fab color="primary" onClick={pedido} aria-label="add"
+                {repetidos.cartas.length>0 ? 
+                <Fab color="primary" onClick={reiniciar} aria-label="add"
                 sx={{top:50}}>
                     <RestartAltIcon />
                 </Fab>:
@@ -68,7 +72,7 @@ const PartidaIniciada = () => {
                 <br />
                 <br />
             <Grid item container rowSpacing={{xs:3}}   justifyContent="center"  >
-            {repetidos.length>0 ? repetidos.map((rep) => (
+            {repetidos.cartas.length>0 && repetidos.nombre===player1.nombre ? repetidos.cartas.map((rep) => (
                 <Carta imagen={rep.image}/>
                 ))
                 :
@@ -100,6 +104,11 @@ const PartidaIniciada = () => {
                 <br />
                 <br />
             <Grid item container rowSpacing={{xs:3}}   justifyContent="center"  >
+            {repetidos.cartas.length>0 && repetidos.nombre===player2.nombre ? repetidos.cartas.map((rep) => (
+                <Carta imagen={rep.image}/>
+                ))
+                :
+                <>
                 <Grid item  backgroundColor="white" borderRadius={1}  
                 sx={{
                     height: 140,
@@ -118,6 +127,8 @@ const PartidaIniciada = () => {
                     borderRadius:1
                     }}>
                 </Grid>
+                </>
+            }
             </Grid>
             </Box>
 
