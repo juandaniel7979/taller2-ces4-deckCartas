@@ -90,7 +90,6 @@ async function getCartas(id) {
     // let parPlayer2 =buscarPareja(player2.cartas);
     let parPlayer2 =buscarPareja(temp2);
 
-    
     if(parPlayer1!==false && parPlayer2!==false){
       if(parPlayer1>parPlayer2){
         return alert('El ganador es: '+player1.nombre)
