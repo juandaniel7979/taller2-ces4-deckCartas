@@ -127,17 +127,17 @@ const reiniciarPartida = ()=>{
     if(parPlayer1!==false && parPlayer2!==false){
       if(parPlayer1>parPlayer2){
         handleChangeRepetidosGanador(player1.nombre);
-        return alert('El ganador es: '+player1.nombre)
+        return swal('El ganador es: '+player1.nombre)
       }else{
         handleChangeRepetidosGanador(player2.nombre);
-        return alert('El ganador es: '+player2.nombre)
+        return swal('El ganador es: '+player2.nombre)
       }
     }else if(parPlayer1!==false && parPlayer2===false){
       handleChangeRepetidosGanador(player1.nombre);
-      return alert('El ganador es: '+player1.nombre)
+      return swal('El ganador es: '+player1.nombre)
     }else if(parPlayer2!==false && parPlayer1===false){
       handleChangeRepetidosGanador(player2.nombre);
-      return alert('El ganador es: '+player2.nombre)
+      return swal('El ganador es: '+player2.nombre)
     }else if(parPlayer1===false || parPlayer2===false){
       console.log("No hay ganador aun");
     }
@@ -155,29 +155,30 @@ const reiniciarPartida = ()=>{
         return busquedaValor[carta.value];
     });
     
-    const busquedaSuit = cartasJugador.reduce((acc, carta) => {
-      acc[carta.suit] = ++acc[carta.suit] || 0;
-      return acc;
-    }, {});
+    // const busquedaSuit = cartasJugador.reduce((acc, carta) => {
+    //   acc[carta.suit] = ++acc[carta.suit] || 0;
+    //   return acc;
+    // }, {});
     
-    const duplicadosSuit = cartasJugador.filter( (carta) => {
-        return busquedaSuit[carta.suit];
-    });
+    // const duplicadosSuit = cartasJugador.filter( (carta) => {
+    //     return busquedaSuit[carta.suit];
+    // });
         console.log('duplicados value: '+duplicados);
-        console.log('duplicados suit: '+duplicadosSuit);
+        // console.log('duplicados suit: '+duplicadosSuit);
     if(duplicados.length>=2){
       console.log(duplicados);
       handleChangeRepetidos(duplicados)
       const carta1 =valorSuit(duplicados[0].suit);
       const carta2 =valorSuit(duplicados[1].suit);
           return carta1+carta2;
-    }else if( duplicadosSuit.length>=2){
-      console.log(duplicadosSuit);
-      handleChangeRepetidos(duplicadosSuit)
-      const carta1 =valorSuit(duplicadosSuit[0].suit);
-      const carta2 =valorSuit(duplicadosSuit[1].suit);
-          return carta1+carta2;
     }
+    // else if( duplicadosSuit.length>=2){
+    //   console.log(duplicadosSuit);
+    //   handleChangeRepetidos(duplicadosSuit)
+    //   const carta1 =valorSuit(duplicadosSuit[0].suit);
+    //   const carta2 =valorSuit(duplicadosSuit[1].suit);
+    //       return carta1+carta2;
+    // }
     else{
       return false;
     }
